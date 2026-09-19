@@ -1,0 +1,16 @@
+description: |
+  LisM custom input processor: applies speed-based pointer acceleration.
+  The multiplier scales linearly between MIN_FACTOR and MAX_FACTOR (Kconfig)
+  based on the per-report movement magnitude between SPEED_MIN and SPEED_MAX.
+
+compatible: "zmk,input-processor-accel"
+
+include: ip_zero_param.yaml
+
+properties:
+  type:
+    type: int
+    required: true
+  codes:
+    type: array
+    required: true

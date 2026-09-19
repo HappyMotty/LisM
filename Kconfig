@@ -1,0 +1,35 @@
+# LisM 独自の速度感応型ポインタ加速 (input_processor_accel) の設定
+
+menu "LisM Pointer Acceleration"
+
+config ZMK_INPUT_PROCESSOR_ACCEL_MIN_FACTOR
+    int "低速時の倍率(%)"
+    default 100
+    range 10 1000
+    help
+      トラックボールをゆっくり動かした時に適用する速度倍率。100で等倍(変化なし)。
+
+config ZMK_INPUT_PROCESSOR_ACCEL_MAX_FACTOR
+    int "高速時の倍率(%)"
+    default 100
+    range 10 1000
+    help
+      トラックボールを素早く動かした時に適用する速度倍率。
+      MIN_FACTORと同じ値にすると加速は無効(常に等倍)になる。
+
+config ZMK_INPUT_PROCESSOR_ACCEL_SPEED_MIN
+    int "加速を開始する移動量のしきい値 (count/report)"
+    default 3
+    range 0 200
+    help
+      1回のレポートあたりの移動量がこの値以下では MIN_FACTOR が適用される。
+
+config ZMK_INPUT_PROCESSOR_ACCEL_SPEED_MAX
+    int "最大倍率に達する移動量のしきい値 (count/report)"
+    default 18
+    range 1 200
+    help
+      1回のレポートあたりの移動量がこの値以上では MAX_FACTOR が適用される。
+      SPEED_MIN と SPEED_MAX の間は線形補間される。
+
+endmenu
