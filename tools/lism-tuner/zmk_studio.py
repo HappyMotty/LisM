@@ -10,7 +10,7 @@ import subprocess
 import webbrowser
 from pathlib import Path
 
-WEB_URL = "https://studio.zmk.dev/"
+WEB_URL = "https://zmk.studio/"
 
 _CANDIDATE_PATHS = [
     r"%LOCALAPPDATA%\Programs\zmk-studio\ZMK Studio.exe",
