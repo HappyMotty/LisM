@@ -44,6 +44,7 @@ struct inertia_data {
     const struct device *source_dev;
     uint16_t code;
     int32_t velocity;
+    int32_t smoothed_velocity;
     bool momentum_active;
     struct k_work_delayable decay_work;
 };
@@ -105,9 +106,14 @@ static int inertia_handle_event(const struct device *dev, struct input_event *ev
         return ZMK_INPUT_PROC_CONTINUE;
     }
 
+    /* なめらかさ(SMOOTHING): 生の移動量を指数移動平均でならし、
+     * ノイズによる誤発火や急激な速度変化を抑える。0なら平滑化なし(直接反映)。 */
+    int32_t smoothing = CONFIG_ZMK_INPUT_PROCESSOR_SCROLL_INERTIA_SMOOTHING;
     data->source_dev = event->dev;
     data->code = event->code;
-    data->velocity = event->value;
+    data->smoothed_velocity =
+        (data->smoothed_velocity * smoothing + event->value * (100 - smoothing)) / 100;
+    data->velocity = data->smoothed_velocity;
     k_work_reschedule(&data->decay_work,
                        K_MSEC(CONFIG_ZMK_INPUT_PROCESSOR_SCROLL_INERTIA_TICK_MS));
 

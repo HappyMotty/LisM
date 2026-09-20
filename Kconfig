@@ -76,4 +76,14 @@ config ZMK_INPUT_PROCESSOR_SCROLL_INERTIA_TICK_MS
     help
       慣性スクロール中、何msごとに速度を減衰させて次のスクロールを送るか。
 
+config ZMK_INPUT_PROCESSOR_SCROLL_INERTIA_SMOOTHING
+    int "なめらかさ (0=ダイレクト)"
+    default 0
+    range 0 90
+    help
+      入力の移動量を指数移動平均でならす度合い。0だとそのまま反映(ダイレクト)、
+      大きいほど滑らかになるが反応が遅延する。センサーのノイズが多い
+      トラックボールでは低め(10〜30程度)を推奨。離した後のスクロールの
+      「効き始め」にも影響する。
+
 endmenu
