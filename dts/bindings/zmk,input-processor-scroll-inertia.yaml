@@ -1,0 +1,17 @@
+description: |
+  LisM custom input processor: adds inertial (momentum) scrolling.
+  When real scroll events stop arriving, this processor keeps injecting
+  synthetic scroll events with decaying velocity (Kconfig-controlled),
+  simulating a "flick and coast" scrolling feel.
+
+compatible: "zmk,input-processor-scroll-inertia"
+
+include: ip_zero_param.yaml
+
+properties:
+  type:
+    type: int
+    required: true
+  codes:
+    type: array
+    required: true

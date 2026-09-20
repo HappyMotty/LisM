@@ -33,3 +33,47 @@ config ZMK_INPUT_PROCESSOR_ACCEL_SPEED_MAX
       SPEED_MIN と SPEED_MAX の間は線形補間される。
 
 endmenu
+
+# LisM 独自の慣性スクロール (input_processor_scroll_inertia) の設定
+
+menu "LisM Scroll Inertia"
+
+config ZMK_INPUT_PROCESSOR_SCROLL_INERTIA_ENABLED
+    bool "慣性スクロールを有効にする"
+    default n
+    help
+      トラックボールで弾くようにスクロールした後、指を止めてもしばらく
+      減速しながらスクロールが続く「慣性スクロール」を有効にする。
+
+config ZMK_INPUT_PROCESSOR_SCROLL_INERTIA_DECAY_PERCENT
+    int "減衰率(%) 数値が大きいほど長く滑る"
+    default 80
+    range 1 99
+    help
+      1ステップごとに速度をこの割合(%)に減衰させる。99に近いほど長く滑り、
+      1に近いほどすぐ止まる。100以上は無限にスクロールし続けるため設定できない。
+
+config ZMK_INPUT_PROCESSOR_SCROLL_INERTIA_MIN_VELOCITY
+    int "停止とみなす速度のしきい値"
+    default 1
+    range 1 50
+    help
+      減衰していく速度がこの値未満になったら慣性スクロールを完全に停止する。
+
+config ZMK_INPUT_PROCESSOR_SCROLL_INERTIA_START_THRESHOLD
+    int "慣性を発生させる最小速度(弾きの強さ)"
+    default 5
+    range 1 100
+    help
+      指を止めた瞬間の速度がこの値未満の場合は、通常のゆっくりしたスクロール
+      が止まっただけとみなし、慣性はつけない。大きくするほど「強く弾いた時だけ」
+      慣性がかかるようになる。
+
+config ZMK_INPUT_PROCESSOR_SCROLL_INERTIA_TICK_MS
+    int "慣性スクロールの更新間隔(ms)"
+    default 30
+    range 10 200
+    help
+      慣性スクロール中、何msごとに速度を減衰させて次のスクロールを送るか。
+
+endmenu
